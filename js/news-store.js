@@ -1,12 +1,13 @@
 /**
  * DDPE News Store
- * Seed bawaan + Kompasiana + localStorage (tulis/hapus pengurus)
+ * Seed bawaan + Supabase (cloud) + localStorage cadangan
  */
 (function (global) {
   "use strict";
 
   var STORAGE_KEY = "ddpe_articles_v1";
   var cfg = global.DDPE_NEWS_CONFIG || {};
+  var TABLE = cfg.table || "articles";
 
   var SEED = [
     {
@@ -14,7 +15,7 @@
       slug: "dari-timika-untuk-indonesia-sinara-rumah-film-independen",
       title: "Dari Timika untuk Indonesia: Saya Mengembangkan SINARA, Rumah Film Independen",
       excerpt: "Rohilman Putra Jagong mengembangkan SINARA — platform streaming film independen untuk pelajar, mahasiswa, dan filmmaker muda dari seluruh Indonesia.",
-      body: "<p>Rohilman Putra Jagong, siswa kelas XII Jurusan Desain Komunikasi Visual di SMKS Pusat Keunggulan YAPIS TIK Timika, Kabupaten Mimika, Papua Tengah, sedang mengembangkan platform bernama <strong>SINARA</strong>. Platform ini dirancang sebagai ruang publikasi dan layanan streaming bagi film-film independen yang dibuat oleh pelajar, mahasiswa, komunitas film, dan filmmaker muda dari berbagai daerah di Indonesia.</p><p>Gagasan SINARA muncul dari keresahan terhadap keterbatasan yang dihadapi anak muda dalam membuat film: biaya, peralatan, waktu, dan sumber daya. Setelah film selesai, banyak karya hanya tersimpan di perangkat pribadi tanpa tempat penayangan yang tepat. SINARA hadir sebagai solusi — rumah bagi karya-karya tersebut.</p><p>SINARA memungkinkan kreator mengajukan dan menerbitkan film agar dapat diakses penonton yang lebih luas. Jenis karya mencakup film pendek, dokumenter, film pelajar, film edukasi, after movie, karya komunitas, dan film independen lainnya.</p><p>Dengan identitas <em>Rumah Film Independen Indonesia</em> dan slogan <em>Tempat Karya Menemukan Penontonnya</em>, SINARA bertujuan agar setiap film memiliki kesempatan untuk ditonton dan diapresiasi. Logo memakai bentuk pita film menyerupai huruf S; ungu untuk kreativitas, emas untuk kualitas dan harapan.</p><p>SINARA berasal dari Timika, Papua, dengan visi nasional mendukung filmmaker independen di seluruh Indonesia.</p>",
+      body: "<p>Rohilman Putra Jagong, siswa kelas XII Jurusan Desain Komunikasi Visual di SMKS Pusat Keunggulan YAPIS TIK Timika, Kabupaten Mimika, Papua Tengah, sedang mengembangkan platform bernama <strong>SINARA</strong>. Platform ini dirancang sebagai ruang publikasi dan layanan streaming bagi film-film independen yang dibuat oleh pelajar, mahasiswa, komunitas film, dan filmmaker muda dari berbagai daerah di Indonesia.</p><p>Gagasan SINARA muncul dari keresahan terhadap keterbatasan yang dihadapi anak muda dalam membuat film: biaya, peralatan, waktu, dan sumber daya. Setelah film selesai, banyak karya hanya tersimpan di perangkat pribadi tanpa tempat penayangan yang tepat. SINARA hadir sebagai solusi — rumah bagi karya-karya tersebut.</p><p>SINARA memungkinkan kreator mengajukan dan menerbitkan film agar dapat diakses penonton yang lebih luas. Jenis karya mencakup film pendek, dokumenter, film pelajar, film edukasi, after movie, karya komunitas, dan film independen lainnya.</p><p>Dengan identitas <em>Rumah Film Independen Indonesia</em> dan slogan <em>Tempat Karya Menemukan Penontonnya</em>, SINARA bertujuan agar setiap film memiliki kesempatan untuk ditonton dan diapresiasi.</p><p>SINARA berasal dari Timika, Papua, dengan visi nasional mendukung filmmaker independen di seluruh Indonesia.</p>",
       category: "digital-papua",
       categoryLabel: "Digital Papua",
       author: "Duta Digital Papua Emas",
@@ -29,7 +30,7 @@
       slug: "ddpe-sebagai-ekosistem-transformasi-literasi-digital",
       title: "Duta Digital Papua Emas Sebagai Ekosistem Transformasi Literasi Digital Berbasis Organisasi Lintas Sekolah",
       excerpt: "Analisis kritis sosio-digital: DDPE sebagai gerakan kolektif yang mengonstruksi ulang literasi digital melalui pendekatan komunitas dan kepemudaan di Papua.",
-      body: "<p>Duta Digital Papua Emas (DDPE) hadir sebagai gerakan kolektif yang mengonstruksi ulang literasi digital melalui pendekatan komunitas dan kepemudaan di Papua. Gerakan ini tidak hanya berfungsi sebagai inisiatif edukatif, tetapi juga sebagai ruang produksi agensi digital lokal yang menghubungkan literasi, inovasi, dan kepemimpinan pemuda.</p><p>Secara konseptual, DDPE merefleksikan transformasi digital yang bersifat kontekstual, partisipatoris, dan berbasis budaya lokal — menempatkan pemuda sebagai aktor utama perubahan sosial.</p><p>Hasil analisis mengungkap DDPE sebagai ekosistem sosial-digital dengan tiga elemen utama: <strong>literasi digital</strong>, <strong>inovasi digital</strong>, dan <strong>kepemimpinan pemuda</strong>.</p><p>DDPE dibangun atas dua pilar: <em>Duta Literasi Digital</em> (etika digital, keamanan informasi, pencegahan disinformasi) dan <em>Duta Inovasi Digital</em> (kreativitas, teknologi, produksi konten berbasis lokal).</p><p>Gerakan ini merespons kesenjangan digital struktural di wilayah periferal. Kesimpulan: DDPE merupakan bentuk baru ekosistem literasi digital berbasis komunitas melalui transformasi digital kontekstual dan partisipatoris.</p>",
+      body: "<p>Duta Digital Papua Emas (DDPE) hadir sebagai gerakan kolektif yang mengonstruksi ulang literasi digital melalui pendekatan komunitas dan kepemudaan di Papua.</p><p>Secara konseptual, DDPE merefleksikan transformasi digital yang bersifat kontekstual, partisipatoris, dan berbasis budaya lokal — menempatkan pemuda sebagai aktor utama perubahan sosial.</p><p>DDPE dibangun atas dua pilar: <em>Duta Literasi Digital</em> dan <em>Duta Inovasi Digital</em>.</p>",
       category: "berita",
       categoryLabel: "Analisis",
       author: "Duta Digital Papua Emas",
@@ -44,7 +45,7 @@
       slug: "guide-book-ddpe-1-0-dirilis",
       title: "Guide Book DDPE 1.0 dirilis sebagai pedoman organisasi",
       excerpt: "Dokumen internal mencakup profil, sistem kepemimpinan, dua Pilar, sistem Duta, program, dan kaderisasi untuk fase fondasi 2026.",
-      body: "<p>Duta Digital Papua Emas (DDPE) merilis <strong>Guide Book versi 1.0</strong> pada Agustus 2026. Buku ini menjadi pedoman hidup (living guide) bagi pengurus pusat, pengurus Pilar, Duta, alumni, calon anggota, dan mitra.</p><p>Isi utama mencakup profil organisasi, sistem kepemimpinan, dua Pilar (Literasi Digital dan Inovasi Digital), sistem Duta, program, kaderisasi, kode etik, serta roadmap 2026–2029.</p><p>Founder &amp; Ketua Umum Rohilman Putra Jagong menekankan bahwa fase awal berfokus pada sistem sehat, program konsisten, dan dampak nyata — bukan jumlah titel atau anggota.</p>",
+      body: "<p>Duta Digital Papua Emas (DDPE) merilis <strong>Guide Book versi 1.0</strong> pada Agustus 2026. Buku ini menjadi pedoman hidup (living guide) bagi pengurus pusat, pengurus Pilar, Duta, alumni, calon anggota, dan mitra.</p>",
       category: "berita",
       categoryLabel: "Organisasi",
       author: "Tim Media DDPE",
@@ -59,7 +60,7 @@
       slug: "website-resmi-ddpe-aktif",
       title: "Website resmi DDPE aktif di ddpe.my.id",
       excerpt: "Wajah publik organisasi untuk mitra, media, calon anggota, dan masyarakat.",
-      body: "<p>Portal resmi <strong>www.ddpe.my.id</strong> diluncurkan sebagai pusat informasi publik DDPE. Di dalamnya tersedia profil organisasi, struktur, program, kegiatan, media, serta kanal Gabung Bersama Kami.</p><p>Halaman Media dan Berita menjadi ruang publikasi kabar organisasi dan isu digital di Papua, termasuk artikel yang juga dipublikasikan di kanal Kompasiana resmi DDPE.</p>",
+      body: "<p>Portal resmi <strong>www.ddpe.my.id</strong> diluncurkan sebagai pusat informasi publik DDPE.</p>",
       category: "berita",
       categoryLabel: "Kelembagaan",
       author: "Tim Media DDPE",
@@ -74,7 +75,7 @@
       slug: "fase-fondasi-penataan-pengurus-dan-pilar",
       title: "Fase fondasi: penataan pengurus dan dua Pilar",
       excerpt: "Tahun 2026 menjadi tahun pembangunan fondasi DDPE di Mimika, Papua Tengah.",
-      body: "<p>DDPE menetapkan 2026 sebagai <strong>tahun fondasi</strong>: penataan kepengurusan, pembangunan dua Pilar, perumusan sistem Duta, kaderisasi, administrasi, dan arah pengembangan organisasi.</p><p>Prinsip yang dipegang: program sebelum seremoni, kualitas sebelum kuantitas, kinerja sebelum jabatan, dan sistem sebelum ekspansi.</p><p>Fokus wilayah tahap awal adalah Mimika, Papua Tengah, dengan perluasan bertahap sesuai kesiapan sistem dan kualitas pembinaan.</p>",
+      body: "<p>DDPE menetapkan 2026 sebagai <strong>tahun fondasi</strong>: penataan kepengurusan, pembangunan dua Pilar, perumusan sistem Duta, kaderisasi, administrasi, dan arah pengembangan organisasi.</p>",
       category: "berita",
       categoryLabel: "Internal",
       author: "Tim Media DDPE",
@@ -93,6 +94,63 @@
     "assets/tim-ddpe-3.jpg"
   ];
 
+  function hasCloud() {
+    return !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
+  }
+
+  function cloudHeaders(extra) {
+    var h = {
+      apikey: cfg.supabaseAnonKey,
+      Authorization: "Bearer " + cfg.supabaseAnonKey,
+      "Content-Type": "application/json"
+    };
+    if (extra) {
+      Object.keys(extra).forEach(function (k) { h[k] = extra[k]; });
+    }
+    return h;
+  }
+
+  function restUrl(pathQuery) {
+    return cfg.supabaseUrl.replace(/\/$/, "") + "/rest/v1/" + pathQuery;
+  }
+
+  function rowToArticle(row) {
+    if (!row) return null;
+    return {
+      id: row.id,
+      slug: row.slug || "",
+      title: row.title || "",
+      excerpt: row.excerpt || "",
+      body: row.body || "",
+      category: row.category || "berita",
+      categoryLabel: row.category_label || row.categoryLabel || "Berita",
+      author: row.author || "Pengurus DDPE",
+      publishedAt: row.published_at || row.publishedAt || new Date().toISOString(),
+      status: row.status || "published",
+      coverImage: row.cover_image || row.coverImage || "",
+      sourceUrl: row.source_url || row.sourceUrl || "",
+      sourceName: row.source_name || row.sourceName || ""
+    };
+  }
+
+  function articleToRow(a) {
+    return {
+      id: a.id,
+      slug: a.slug || "",
+      title: a.title || "",
+      excerpt: a.excerpt || "",
+      body: a.body || "",
+      category: a.category || "berita",
+      category_label: a.categoryLabel || "Berita",
+      author: a.author || "Pengurus DDPE",
+      published_at: a.publishedAt || new Date().toISOString(),
+      status: a.status || "published",
+      cover_image: a.coverImage || "",
+      source_url: a.sourceUrl || "",
+      source_name: a.sourceName || ""
+    };
+  }
+
   function loadLocal() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -105,17 +163,54 @@
   }
 
   function saveLocal(list) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) { /* quota */ }
   }
 
-  function mergeArticles() {
+  function mergeLocalSeed() {
     var local = loadLocal();
     var map = {};
     SEED.forEach(function (a) { map[a.id] = Object.assign({}, a); });
     local.forEach(function (a) {
       if (a && a.id) map[a.id] = a;
     });
-    // Hapus yang ditandai deleted
+    Object.keys(map).forEach(function (k) {
+      if (map[k].status === "deleted") delete map[k];
+    });
+    return Object.keys(map).map(function (k) { return map[k]; });
+  }
+
+  async function fetchCloud() {
+    if (!hasCloud()) return null;
+    var url = restUrl(TABLE + "?select=*&order=published_at.desc");
+    var res = await fetch(url, { headers: cloudHeaders() });
+    if (!res.ok) {
+      var t = await res.text();
+      throw new Error("Supabase baca gagal: " + res.status + " " + t.slice(0, 120));
+    }
+    var rows = await res.json();
+    return (rows || []).map(rowToArticle);
+  }
+
+  async function allMerged() {
+    var cloud = null;
+    try {
+      cloud = await fetchCloud();
+    } catch (e) {
+      console.warn("[DDPE] cloud offline, pakai seed+local", e.message || e);
+    }
+    var map = {};
+    SEED.forEach(function (a) { map[a.id] = Object.assign({}, a); });
+    if (cloud && cloud.length) {
+      cloud.forEach(function (a) {
+        if (a && a.id) map[a.id] = a;
+      });
+    } else {
+      loadLocal().forEach(function (a) {
+        if (a && a.id) map[a.id] = a;
+      });
+    }
     Object.keys(map).forEach(function (k) {
       if (map[k].status === "deleted") delete map[k];
     });
@@ -130,15 +225,16 @@
       });
   }
 
-  function byId(id) {
+  async function byId(id) {
     if (!id) return null;
-    return mergeArticles().find(function (a) {
+    var list = await allMerged();
+    return list.find(function (a) {
       return a.id === id || a.slug === id;
     }) || null;
   }
 
-  function byCategory(cat) {
-    var list = publishedOnly(mergeArticles());
+  async function byCategory(cat) {
+    var list = publishedOnly(await allMerged());
     if (!cat || cat === "semua") return list;
     return list.filter(function (a) { return a.category === cat; });
   }
@@ -203,9 +299,23 @@
       throw new Error("Judul dan isi berita wajib diisi.");
     }
 
+    // Cadangan lokal
     var local = loadLocal();
     local.unshift(article);
     saveLocal(local);
+
+    // Cloud
+    if (hasCloud()) {
+      var res = await fetch(restUrl(TABLE), {
+        method: "POST",
+        headers: cloudHeaders({ Prefer: "return=representation" }),
+        body: JSON.stringify(articleToRow(article))
+      });
+      if (!res.ok) {
+        var t = await res.text();
+        throw new Error("Gagal simpan ke cloud: " + res.status + " — " + t.slice(0, 160) + "\nPastikan tabel articles sudah dibuat di Supabase.");
+      }
+    }
 
     if (cfg.formspreeEndpoint) {
       try {
@@ -226,36 +336,39 @@
     return article;
   }
 
-  /**
-   * Hapus artikel.
-   * - Artikel lokal (id diawali art-): dihapus dari localStorage
-   * - Artikel seed: disimpan sebagai status deleted di localStorage agar tidak muncul lagi
-   */
-  function deleteArticle(id) {
+  async function deleteArticle(id) {
     if (!id) return false;
+
     var local = loadLocal();
-    var found = false;
-
-    // Hapus dari local jika ada
-    var next = local.filter(function (a) {
-      if (a.id === id) { found = true; return false; }
-      return true;
-    });
-
-    // Jika seed, tandai deleted
+    var next = local.filter(function (a) { return a.id !== id; });
     var isSeed = SEED.some(function (s) { return s.id === id; });
-    if (isSeed) {
-      next.push({ id: id, status: "deleted" });
-      found = true;
-    }
-
+    if (isSeed) next.push({ id: id, status: "deleted" });
     saveLocal(next);
-    return found;
+
+    if (hasCloud()) {
+      try {
+        // Soft-delete agar konsisten
+        await fetch(restUrl(TABLE + "?id=eq." + encodeURIComponent(id)), {
+          method: "PATCH",
+          headers: cloudHeaders({ Prefer: "return=minimal" }),
+          body: JSON.stringify({ status: "deleted" })
+        });
+        // Hard delete untuk id art-*
+        if (String(id).indexOf("art-") === 0) {
+          await fetch(restUrl(TABLE + "?id=eq." + encodeURIComponent(id)), {
+            method: "DELETE",
+            headers: cloudHeaders()
+          });
+        }
+      } catch (e) {
+        console.warn("[DDPE] delete cloud", e);
+      }
+    }
+    return true;
   }
 
-  function listManaged() {
-    // Semua yang published (untuk panel pengurus)
-    return publishedOnly(mergeArticles());
+  async function listManaged() {
+    return publishedOnly(await allMerged());
   }
 
   function checkPassword(pw) {
@@ -263,7 +376,7 @@
   }
 
   global.DDPENews = {
-    allPublished: function () { return publishedOnly(mergeArticles()); },
+    allPublished: async function () { return publishedOnly(await allMerged()); },
     byCategory: byCategory,
     byId: byId,
     publish: publishArticle,
@@ -273,6 +386,7 @@
     checkPassword: checkPassword,
     formatDate: formatDate,
     labelFor: labelFor,
-    seed: SEED
+    seed: SEED,
+    hasCloud: hasCloud
   };
 })(window);
