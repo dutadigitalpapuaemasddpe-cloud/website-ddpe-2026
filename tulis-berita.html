@@ -117,9 +117,6 @@
       <input id="pw" type="password" placeholder="Password pengurus" style="margin-bottom:1rem;" />
       <div id="lockMsg" class="editor-msg"></div>
       <button type="button" class="btn btn-primary" id="btnUnlock" style="width:100%;">Masuk</button>
-      <p style="margin-top:1rem;font-size:0.8rem;color:var(--text-muted);">
-        Default: <code>DDPE2026</code> — ganti di <code>js/news-config.js</code>
-      </p>
     </div>
 
     <div id="editorPanel" class="editor-box glass" style="display:none;">
@@ -212,7 +209,6 @@
         }
       });
 
-      // Tabs
       document.getElementById("tabWrite").addEventListener("click", function () {
         document.getElementById("tabWrite").classList.add("active");
         document.getElementById("tabManage").classList.remove("active");
@@ -227,7 +223,6 @@
         renderManage();
       });
 
-      // Cover upload → compress to data URL
       document.getElementById("coverFile").addEventListener("change", function (e) {
         var file = e.target.files && e.target.files[0];
         coverData = "";
