@@ -96,10 +96,10 @@
   <script src="js/news-store.js"></script>
   <script src="js/main.js"></script>
   <script>
-    (function () {
+    (async function () {
       var params = new URLSearchParams(location.search);
       var id = params.get("id") || "";
-      var a = DDPENews.byId(id);
+      var a = await DDPENews.byId(id);
       var root = document.getElementById("articleRoot");
       if (!a) {
         root.innerHTML = '<p style="color:var(--text-muted);">Artikel tidak ditemukan atau sudah dihapus. <a href="berita.html" style="color:var(--purple-deep);">Kembali ke daftar berita</a></p>';

@@ -114,8 +114,8 @@
           .replace(/"/g, "&quot;");
       }
 
-      function render(cat) {
-        var list = DDPENews.byCategory(cat);
+      async function render(cat) {
+        var list = await DDPENews.byCategory(cat);
         featuredRoot.innerHTML = "";
         root.innerHTML = "";
 
