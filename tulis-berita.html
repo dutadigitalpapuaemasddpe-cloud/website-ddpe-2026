@@ -301,8 +301,8 @@
         }
       });
 
-      function renderManage() {
-        var list = DDPENews.listManaged();
+      async function renderManage() {
+        var list = await DDPENews.listManaged();
         var box = document.getElementById("manageList");
         if (!list.length) {
           box.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">Belum ada berita.</p>';
@@ -325,10 +325,10 @@
           box.appendChild(row);
         });
         box.querySelectorAll(".btn-danger").forEach(function (btn) {
-          btn.addEventListener("click", function () {
+          btn.addEventListener("click", async function () {
             var id = btn.getAttribute("data-id");
             if (!confirm("Hapus berita ini dari website?")) return;
-            DDPENews.deleteArticle(id);
+            await DDPENews.deleteArticle(id);
             renderManage();
           });
         });
